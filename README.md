@@ -227,7 +227,7 @@ pyinstaller --onefile --version-file=version_info.txt app.py
 ```
 
 📁 Структура проекта
-
+```
 data-exchange-service/
 ├── app.py                    # Основной сервер (Flask)
 ├── version_info.txt          # Метаданные версии для exe
@@ -247,9 +247,10 @@ data-exchange-service/
 ├── dist/                       # Скомпилированные exe (игнорируются)
 ├── release/                     # Готовые релизы (игнорируются)
 └── venv/                        # Виртуальное окружение (игнорируется)
+```
 
 ## 📄 Лицензия
-
+```
 Проект распространяется под лицензией Apache License Version 2.0, January 2004.
 
 Copyright 2026 Скворцов Константин Валерьевич
@@ -265,6 +266,7 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+```
 
 ## 👨‍💻 Автор
 
@@ -292,4 +294,4 @@ limitations under the License.
 
 Сообществу Open Source за инструменты и библиотеки
 
-p align="center"> <sub>Сделано с ❤️ для тестирования и демонстрации интеграционных возможностей</sub> </p> ```
+<p align="center"> <sub>Сделано с ❤️ для тестирования и демонстрации интеграционных возможностей</sub> </p>
