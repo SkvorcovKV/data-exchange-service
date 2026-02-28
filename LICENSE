@@ -1,0 +1,137 @@
+========================================================================
+                     УВЕДОМЛЕНИЕ ОБ OPEN-SOURCE КОМПОНЕНТАХ
+========================================================================
+
+Данный программный продукт ("Сервис обмена данными") использует следующие 
+сторонние библиотеки с открытым исходным кодом:
+
+------------------------------------------------------------------------
+1. Flask (https://flask.palletsprojects.com)
+------------------------------------------------------------------------
+Лицензия: BSD-3-Clause
+Авторское право: Copyright 2010-2024 Pallets
+
+Условия лицензии BSD-3-Clause:
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice,
+   this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution.
+3. Neither the name of the copyright holder nor the names of its contributors
+   may be used to endorse or promote products derived from this software
+   without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+------------------------------------------------------------------------
+2. Jinja2 (https://jinja.palletsprojects.com)
+------------------------------------------------------------------------
+Лицензия: BSD-3-Clause
+Авторское право: Copyright 2007-2024 Pallets
+
+(Условия лицензии те же, что и для Flask)
+
+------------------------------------------------------------------------
+3. MarkupSafe (https://markupsafe.palletsprojects.com)
+------------------------------------------------------------------------
+Лицензия: BSD-3-Clause
+Авторское право: Copyright 2010-2024 Pallets
+
+(Условия лицензии те же, что и для Flask)
+
+------------------------------------------------------------------------
+4. Werkzeug (https://werkzeug.palletsprojects.com)
+------------------------------------------------------------------------
+Лицензия: BSD-3-Clause
+Авторское право: Copyright 2007-2024 Pallets
+
+(Условия лицензии те же, что и для Flask)
+
+------------------------------------------------------------------------
+5. click (https://click.palletsprojects.com)
+------------------------------------------------------------------------
+Лицензия: BSD-3-Clause
+Авторское право: Copyright 2014-2024 Pallets
+
+(Условия лицензии те же, что и для Flask)
+
+------------------------------------------------------------------------
+6. itsdangerous (https://itsdangerous.palletsprojects.com)
+------------------------------------------------------------------------
+Лицензия: BSD-3-Clause
+Авторское право: Copyright 2011-2024 Pallets
+
+(Условия лицензии те же, что и для Flask)
+
+------------------------------------------------------------------------
+7. flask-cors (https://github.com/corydolphin/flask-cors)
+------------------------------------------------------------------------
+Лицензия: MIT
+Авторское право: Copyright 2016 Cory Dolphin
+
+MIT License:
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+------------------------------------------------------------------------
+8. blinker (https://github.com/jek/blinker)
+------------------------------------------------------------------------
+Лицензия: MIT
+Авторское право: Copyright 2010-2023 Jason Kirtland
+
+(Условия лицензии те же, что и для flask-cors)
+
+------------------------------------------------------------------------
+9. colorama (https://github.com/tartley/colorama)
+------------------------------------------------------------------------
+Лицензия: BSD-3-Clause
+Авторское право: Copyright 2010-2023 Jonathan Hartley
+
+(Условия лицензии те же, что и для Flask)
+
+========================================================================
+                         КОММЕРЧЕСКАЯ ЛИЦЕНЗИЯ
+========================================================================
+
+Программный код, написанный автором данного продукта ("Сервис обмена данными"), 
+распространяется на условиях коммерческой лицензии, изложенной в файле 
+`EULA.txt`, который прилагается к данному дистрибутиву.
+
+В случае отсутствия файла `EULA.txt` или если вы получили 
+данное ПО без него, пожалуйста, свяжитесь с автором (skvorcovkv@mail.ru)для 
+получения условий использования.
+
+========================================================================
+                        АВТОРСКИЕ ПРАВА
+========================================================================
+
+Copyright (c) 2026 Скворцов Константин Валерьевич. Все права защищены.

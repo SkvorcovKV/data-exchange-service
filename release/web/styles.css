@@ -1,0 +1,357 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+    background-color: #F3F0FA; /* Светлый фиолетовый фон */
+    color: #2D2A3A; /* Основной текст */
+}
+
+/* Шапка - новый фиолетовый градиент */
+header {
+    background: linear-gradient(135deg, #6C4F9F, #4A3770); /* Фиолетовый градиент */
+    color: white;
+    padding: 20px 30px;
+    box-shadow: 0 4px 12px rgba(90, 60, 140, 0.2); /* Фиолетовая тень */
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.header-left {
+    flex: 1;
+}
+
+.main-title {
+    font-size: 2.5em;
+    font-weight: bold;
+    line-height: 1;
+    letter-spacing: -0.5px;
+}
+
+.sub-title {
+    font-size: 1em;
+    opacity: 0.9;
+    margin-top: 5px;
+}
+
+.header-right .logo {
+    height: 100px;
+    width: auto;
+}
+
+/* Вкладки */
+.tabs {
+    display: flex;
+    background: white;
+    padding: 0 30px;
+    border-bottom: 1px solid #E2D9F0; /* Светло-фиолетовая граница */
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.tab-button {
+    padding: 15px 25px;
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    color: #5F559B; /* Фиолетовый для текста вкладок */
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s;
+    font-weight: 500;
+}
+
+.tab-button:hover {
+    color: #F59E0B; /* Золотой при наведении */
+}
+
+.tab-button.active {
+    color: #6C4F9F; /* Основной фиолетовый */
+    border-bottom-color: #F59E0B; /* Золотая полоска */
+    font-weight: 600;
+}
+
+/* Контент */
+.tab-content {
+    max-width: 1400px;
+    margin: 20px auto;
+    padding: 0 30px;
+}
+
+.tab-pane {
+    display: none;
+}
+
+.tab-pane.active {
+    display: block;
+}
+
+/* Панель инструментов */
+.toolbar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+/* КНОПКИ - полная переработка */
+.btn {
+    padding: 10px 22px;
+    border: none;
+    border-radius: 30px; /* Более современные, скругленные */
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    letter-spacing: 0.3px;
+}
+
+.btn-primary {
+    background-color: #A3E635; /* Салатовый */
+    color: #1E2923; /* Темно-зеленый для контраста */
+}
+.btn-primary:hover {
+    background-color: #8BC34A; /* Чуть темнее при наведении */
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(163, 230, 53, 0.3);
+}
+
+.btn-secondary {
+    background-color: #E2D9F0; /* Светло-фиолетовый */
+    color: #4A3770; /* Темно-фиолетовый текст */
+}
+.btn-secondary:hover {
+    background-color: #CBC3E3;
+}
+
+.btn-success {
+    background-color: #A3E635; /* Салатовый для успеха */
+    color: #1E2923;
+}
+.btn-success:hover {
+    background-color: #8BC34A;
+    box-shadow: 0 4px 8px rgba(163, 230, 53, 0.3);
+}
+
+.btn-danger {
+    background-color: #FF6B6B; /* Мягкий красный, но можно оставить */
+    color: white;
+}
+.btn-danger:hover {
+    background-color: #FA5252;
+}
+
+/* Таблицы */
+.data-table {
+    width: 100%;
+    background: white;
+    border-collapse: collapse;
+    border-radius: 16px; /* Более скругленные углы */
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(108, 79, 159, 0.1); /* Фиолетовая тень */
+    margin-bottom: 20px;
+}
+
+.data-table th {
+    background-color: #6C4F9F; /* Фиолетовая шапка */
+    color: white;
+    padding: 14px 12px;
+    text-align: left;
+    font-weight: 500;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.data-table td {
+    padding: 14px 12px;
+    border-bottom: 1px solid #F0EAF8; /* Очень светлая граница */
+    color: #2D2A3A;
+}
+
+.data-table tbody tr:hover {
+    background-color: #F8F5FF; /* Светло-фиолетовый при наведении */
+    cursor: pointer;
+}
+
+.data-table tbody tr.selected {
+    background-color: #FFF1D6; /* Светло-золотистый */
+    border-left: 4px solid #F59E0B; /* Золотая полоска */
+    box-shadow: inset 0 0 0 1px #F59E0B;
+}
+
+/* Формы */
+.form-panel {
+    background: white;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(108, 79, 159, 0.15);
+    margin-top: 20px;
+    border: 1px solid #E2D9F0;
+}
+
+.form-panel.hidden {
+    display: none;
+}
+
+.form-panel h3 {
+    color: #6C4F9F;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    color: #5F559B; /* Фиолетовый */
+    font-weight: 500;
+    font-size: 0.9em;
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"] {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #E2D9F0; /* Светлая граница */
+    border-radius: 12px;
+    font-size: 14px;
+    transition: border 0.2s;
+    background-color: #FCF9FF;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #F59E0B; /* Золотой при фокусе */
+    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2);
+}
+
+.form-group.checkbox {
+    display: flex;
+    align-items: center;
+}
+
+.form-group.checkbox input {
+    margin-right: 10px;
+    accent-color: #A3E635; /* Салатовый чекбокс */
+}
+
+.form-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+.form-actions.hidden {
+    display: none;
+}
+
+/* Настройки */
+.settings-form {
+    max-width: 500px;
+    background: white;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(108, 79, 159, 0.1);
+    border: 1px solid #E2D9F0;
+}
+
+/* Журнал */
+.logs-viewer {
+    background: #23202E; /* Темно-фиолетовый фон */
+    color: #F0EAF8; /* Светлый текст */
+    padding: 20px;
+    border-radius: 16px;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    max-height: 500px;
+    overflow-y: auto;
+    border: 1px solid #6C4F9F;
+}
+
+/* Пагинация */
+.pagination {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination button {
+    padding: 8px 14px;
+    border: 1px solid #E2D9F0;
+    background: white;
+    cursor: pointer;
+    border-radius: 30px;
+    color: #6C4F9F;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.pagination button.active {
+    background: #A3E635; /* Салатовый */
+    color: #1E2923;
+    border-color: #A3E635;
+}
+
+.pagination button:hover:not(.active) {
+    background: #F59E0B; /* Золотой */
+    color: white;
+    border-color: #F59E0B;
+}
+
+/* Чекбокс с автообновлением */
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #5F559B;
+    cursor: pointer;
+    font-weight: 500;
+}
+.checkbox-label input[type="checkbox"] {
+    accent-color: #A3E635; /* Салатовый */
+    width: 16px;
+    height: 16px;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .tabs {
+        padding: 0 15px;
+    }
+    
+    .tab-content {
+        padding: 0 15px;
+    }
+    
+    .toolbar {
+        flex-direction: column;
+    }
+    
+    .data-table {
+        font-size: 12px;
+    }
+    
+    .data-table th,
+    .data-table td {
+        padding: 10px 8px;
+    }
+}

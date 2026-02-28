@@ -1,0 +1,4 @@
+[SERVER]
+login = scud123
+web_port = 7556
+debug_log = False

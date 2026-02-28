@@ -1,0 +1,44 @@
+# Создаем .gitignore
+@"
+# Виртуальное окружение
+venv/
+env/
+ENV/
+
+# База данных (не коммитим данные!)
+*.db
+*.db-journal
+
+# Логи
+*.log
+startup_debug.log
+
+# Файлы конфигурации (с паролями)
+config.ini
+!config.ini.example
+
+# Папки сборки PyInstaller
+build/
+dist/
+*.spec
+
+# Кэш Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# Тестовые файлы
+test_*.py
+debug_output.txt
+test_event.json
+
+# Временные файлы Windows
+Thumbs.db
+desktop.ini
+"@ | Out-File -FilePath .gitignore -Encoding utf8

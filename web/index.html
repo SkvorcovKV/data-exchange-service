@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ЭНТ Контроль доступа - Сервис обмена данными</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Шапка -->
+    <header>
+        <div class="header-content">
+            <div class="header-left">
+                <div class="main-title">СЕРВИС ДАННЫХ</div>
+                <div class="sub-title">для обмена с СКУД "ЭНТ Контроль доступа"</div>
+            </div>
+            <div class="header-right">
+                <img src="logo.jpg" alt="Логотип" class="logo">
+            </div>
+        </div>
+    </header>
+
+    <!-- Вкладки -->
+    <div class="tabs">
+        <button class="tab-button active" data-tab="users">Пользователи</button>
+        <button class="tab-button" data-tab="events">События</button>
+        <button class="tab-button" data-tab="settings">Настройки</button>
+        <button class="tab-button" data-tab="logs">Журнал</button>
+    </div>
+
+    <!-- Контент вкладок -->
+    <div class="tab-content">
+        <!-- Вкладка Пользователи -->
+        <div id="users-tab" class="tab-pane active">
+            <div class="toolbar">
+                <button class="btn btn-primary" onclick="showAddUserForm()">
+                    ➕ Добавить нового пользователя
+                </button>
+                <button class="btn btn-secondary" id="edit-toggle-btn" onclick="toggleEditPanel()">
+                    ✏️ Показать панель редактирования
+                </button>
+                <button class="btn btn-secondary" onclick="loadUsers()">
+                    🔄 Обновить
+                </button>
+            </div>
+
+            <!-- Таблица пользователей -->
+            <table class="data-table" id="users-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>ФИО</th>
+                        <th>Ключ(и)</th>
+                        <th>Подразделение</th>
+                    </tr>
+                </thead>
+                <tbody id="users-table-body">
+                    <!-- Данные будут загружаться через JS -->
+                </tbody>
+            </table>
+
+            <!-- Панель добавления/редактирования -->
+            <div id="user-form-panel" class="form-panel hidden">
+                <h3 id="form-title">Добавление пользователя</h3>
+                <form id="user-form">
+                    <input type="hidden" id="user-id">
+                    <div class="form-group">
+                        <label for="full-name">ФИО *</label>
+                        <input type="text" id="full-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="department">Подразделение *</label>
+                        <input type="text" id="department" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="key-input">Идентификатор ключа</label>
+                        <input type="text" id="key-input" placeholder="HEX: 5F479 или DEC: 4568456 (можно несколько через ;)">
+                    </div>
+                    <div class="form-actions" id="form-actions-add">
+                        <button type="button" class="btn btn-success" onclick="addUser()">Добавить</button>
+                        <button type="button" class="btn btn-secondary" onclick="hideUserForm()">Отменить</button>
+                    </div>
+                    <div class="form-actions hidden" id="form-actions-edit">
+                        <button type="button" class="btn btn-success" onclick="updateUser()">Сохранить изменения</button>
+                        <button type="button" class="btn btn-danger" onclick="deleteUser()">Удалить пользователя</button>
+                        <button type="button" class="btn btn-secondary" onclick="hideUserForm()">Отменить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Вкладка События -->
+        <div id="events-tab" class="tab-pane">
+            <div class="toolbar">
+                <button class="btn btn-secondary" onclick="loadEvents()">
+                    🔄 Обновить сейчас
+                </button>
+                <label class="checkbox-label">
+                    <input type="checkbox" id="auto-refresh" onchange="toggleAutoRefresh()">
+                    🔁 Автообновление каждые 20 секунд
+                </label>
+            </div>
+
+            <!-- Таблица событий -->
+            <table class="data-table" id="events-table">
+                <thead>
+                    <tr>
+                        <th>ID события</th>
+                        <th>Тип</th>
+                        <th>Сотрудник</th>
+                        <th>Ключ</th>
+                        <th>Точка доступа</th>
+                        <th>Направление</th>
+                        <th>Время</th>
+                    </tr>
+                </thead>
+                <tbody id="events-table-body">
+                    <!-- Данные будут загружаться через JS -->
+                </tbody>
+            </table>
+            <div id="events-pagination" class="pagination"></div>
+        </div>
+
+        <!-- Вкладка Настройки -->
+        <div id="settings-tab" class="tab-pane">
+            <form id="settings-form" class="settings-form">
+                <div class="form-group">
+                    <label for="settings-login">Логин для сервера обмена (l)</label>
+                    <input type="text" id="settings-login" required>
+                </div>
+                <div class="form-group">
+                    <label for="settings-port">Порт для веб-интерфейса</label>
+                    <input type="number" id="settings-port" required>
+                </div>
+                <div class="form-group checkbox">
+                    <label>
+                        <input type="checkbox" id="settings-debug-log">
+                        Включить расширенный лог-файл
+                    </label>
+                </div>
+                <button type="button" class="btn btn-primary" onclick="saveSettings()">Сохранить настройки</button>
+            </form>
+        </div>
+
+        <!-- Вкладка Журнал -->
+        <div id="logs-tab" class="tab-pane">
+            <div class="toolbar">
+                <button class="btn btn-secondary" onclick="loadLogs()">
+                    🔄 Обновить
+                </button>
+            </div>
+            <pre id="logs-content" class="logs-viewer"></pre>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

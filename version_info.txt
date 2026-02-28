@@ -1,0 +1,33 @@
+# UTF-8
+#
+# Для русского языка используем кодировку UTF-8 with BOM
+# Код языка: 1049 - русский, 1200 - Unicode
+
+VSVersionInfo(
+  ffi=FixedFileInfo(
+    filevers=(1, 0, 0, 0),
+    prodvers=(1, 0, 0, 0),
+    mask=0x3f,
+    flags=0x0,
+    OS=0x40004,
+    fileType=0x1,
+    subtype=0x0,
+    date=(0, 0)
+    ),
+  kids=[
+    StringFileInfo(
+      [
+      StringTable(
+        u'040904B0',
+        [StringStruct(u'CompanyName', u'Скворцов Константин Валерьевич'),
+         StringStruct(u'FileDescription', u'Сервис данных для обмена с СКУД "ЭНТ Контроль доступа"'),
+         StringStruct(u'FileVersion', u'1.0.0.0'),
+         StringStruct(u'InternalName', u'DataExchangeService'),
+         StringStruct(u'LegalCopyright', u'© 2026 Скворцов К.В. Все права защищены'),
+         StringStruct(u'OriginalFilename', u'ent-exchange-service.exe'),
+         StringStruct(u'ProductName', u'Data Exchange Service'),
+         StringStruct(u'ProductVersion', u'1.0.0')])
+      ]), 
+    VarFileInfo([VarStruct(u'Translation', [1049, 1200])])
+  ]
+)
