@@ -29,7 +29,7 @@
 ### 🔄 Принцип работы
 
 В связке с программой «Обмен данными» (в составе СКУД «ЭНТ Контроль доступа») сервис обеспечивает:
-\`\`\`
+```
 ┌─────────────────┐         ┌─────────────────┐         ┌──────────────────┐
 │  Data Exchange  │         │     Служба      │         │  СКУД ЭНТ        │
 │    Service      │ ◄─────► │  «Обмен данными»│ ◄─────► │  Контроль доступа│
@@ -42,7 +42,7 @@
    │  Выгрузка │              │  Передача │                 │  События  │
    │пользоват. │              │  событий  │                 │  доступа  │
    └───────────┘              └───────────┘                 └───────────┘
-\`\`\`
+```
 
 **Основные процессы:**
 
@@ -137,8 +137,10 @@ POST /auth
 Content-Type: application/json
 
 {"l": "scud123"}
+```
 
-Получение списка пользователей
+### Получение списка пользователей
+```
 POST /api/exchange/users
 Content-Type: application/json
 
@@ -156,8 +158,10 @@ Response 200 OK
     }
   ]
 }
+```
 
-Получение последнего ID события
+### Получение последнего ID события
+```
 POST /api/exchange/last_event_id
 Content-Type: application/json
 
@@ -165,8 +169,10 @@ Content-Type: application/json
 
 Response 200 OK
 {"i": "12345"}
+```
 
-Прием событий
+### Прием событий
+```
 POST /api/exchange/events
 Content-Type: application/json
 
@@ -189,27 +195,36 @@ Content-Type: application/json
 
 Response 200 OK
 {"i": "2060064"}
+```
 
-🏗 Сборка из исходного кода
+## 🏗 Сборка из исходного кода
 
 Для разработки и модификации:
 
-# Клонирование репозитория
+### Клонирование репозитория
+```
 git clone https://github.com/SkvorcovKV/data-exchange-service.git
 cd data-exchange-service
-
-# Создание виртуального окружения
+```
+### Создание виртуального окружения
+```
 python -m venv venv
 .\venv\Scripts\activate
+```
 
-# Установка зависимостей
+### Установка зависимостей
+```
 pip install -r requirements.txt
+```
 
-# Запуск в режиме разработки
+### Запуск в режиме разработки
+```
 python app.py
-
-# Сборка исполняемого файла
+```
+### Сборка исполняемого файла
+```
 pyinstaller --onefile --version-file=version_info.txt app.py
+```
 
 📁 Структура проекта
 
@@ -233,7 +248,7 @@ data-exchange-service/
 ├── release/                     # Готовые релизы (игнорируются)
 └── venv/                        # Виртуальное окружение (игнорируется)
 
-📄 Лицензия
+## 📄 Лицензия
 
 Проект распространяется под лицензией Apache License Version 2.0, January 2004.
 
@@ -251,7 +266,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-👨‍💻 Автор
+## 👨‍💻 Автор
 
 Скворцов Константин Валерьевич
 
@@ -261,7 +276,7 @@ limitations under the License.
 
 🤝 Поддержка и обратная связь
 
-Если у вас возникли вопросы или предложения:
+## Если у вас возникли вопросы или предложения:
 
 📧 Email: skvorcovkv@mail.ru
 
@@ -269,7 +284,7 @@ limitations under the License.
 
 📋 Документация: Wiki https://github.com/SkvorcovKV/data-exchange-service/wiki
 
-⭐️ Благодарности
+## ⭐️ Благодарности
 
 Команде "ЭРА НОВЫХ ТЕХНОЛОГИЙ" за предоставленную документацию и поддержку
 
