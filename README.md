@@ -188,26 +188,26 @@ Content-Type: application/json
 Response 200 OK
 {"i": "2060064"}
 
-#🏗 Сборка из исходного кода
+## 🏗 Сборка из исходного кода
 Для разработки и модификации:
-# Клонирование репозитория
-git clone https://github.com/ваш-username/data-exchange-service.git
+### Клонирование репозитория
+git clone https://github.com/SkvorcovKV/data-exchange-service.git
 cd data-exchange-service
 
-## Создание виртуального окружения
+### Создание виртуального окружения
 python -m venv venv
 .\venv\Scripts\activate
 
-## Установка зависимостей
+### Установка зависимостей
 pip install -r requirements.txt
 
-## Запуск в режиме разработки
+### Запуск в режиме разработки
 python app.py
 
-## Сборка исполняемого файла
+### Сборка исполняемого файла
 pyinstaller --onefile --version-file=version_info.txt app.py
 
-#📁 Структура проекта
+## 📁 Структура проекта
 data-exchange-service/
 ├── app.py                    # Основной сервер (Flask)
 ├── version_info.txt          # Метаданные версии для exe
@@ -228,7 +228,7 @@ data-exchange-service/
 ├── release/                     # Готовые релизы (игнорируются)
 └── venv/                        # Виртуальное окружение (игнорируется)
 
-#📄 Лицензия
+## 📄 Лицензия
 Проект распространяется под лицензией Apache License Version 2.0, January 2004.
 Copyright 2026 Скворцов Константин Валерьевич
 
@@ -244,23 +244,23 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-#👨‍💻 Автор
+## 👨‍💻 Автор
 Скворцов Константин Валерьевич
 
-##📧 Email: skvorcovkv@mail.ru
+📧 Email: skvorcovkv@mail.ru
 
-##🐙 GitHub: @SkvorcovKV
+🐙 GitHub: @SkvorcovKV
 
-#🤝 Поддержка и обратная связь
+## 🤝 Поддержка и обратная связь
 Если у вас возникли вопросы или предложения:
 
-##📧 Email: skvorcovkv@mail.ru
+📧 Email: skvorcovkv@mail.ru
 
-##🐛 Issue tracker: GitHub Issues https://github.com/SkvorcovKV/data-exchange-service/issues
+🐛 Issue tracker: GitHub Issues https://github.com/SkvorcovKV/data-exchange-service/issues
 
-##📋 Документация: Wiki https://github.com/SkvorcovKV/data-exchange-service/wiki
+📋 Документация: Wiki https://github.com/SkvorcovKV/data-exchange-service/wiki
 
-#⭐️ Благодарности
+## ⭐️ Благодарности
 Команде "ЭРА НОВЫХ ТЕХНОЛОГИЙ" за предоставленную документацию и поддержку
 
 Всем, кто участвовал в тестировании и помогал с отладкой
