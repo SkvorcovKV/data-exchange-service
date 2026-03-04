@@ -7,7 +7,7 @@
 [![GitHub release](https://img.shields.io/github/v/release/SkvorcovKV/data-exchange-service)](https://github.com/SkvorcovKV/data-exchange-service/releases)
 
 <p align="center">
-  <img src="web/logo.jpg" alt="Data Exchange Service Logo" width="200"/>
+  <img src="web/logo.png" alt="Data Exchange Service Logo" width="200"/>
 </p>
 
 ## 📋 О проекте
