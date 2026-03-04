@@ -10,7 +10,7 @@ body {
     color: #2D2A3A; /* Основной текст */
 }
 
-/* Шапка - новый фиолетовый градиент */
+/* Шапка*/
 header {
     background: linear-gradient(135deg, #6C4F9F, #4A3770); /* Фиолетовый градиент */
     color: white;

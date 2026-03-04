@@ -103,12 +103,16 @@ finally:
         debug_file.close()
 
 # --- Определяем базовые пути ---
-# Получаем путь к папке, где находится сам скрипт app.py.
-# Это важно, чтобы мы всегда знали, где искать файлы, даже если программу
-# запустят из другого места.
-EXE_DIR = os.path.dirname(sys.executable)
+# Определяем базовую директорию в зависимости от того, запущен ли скрипт как exe или как .py
+if getattr(sys, 'frozen', False):
+    # Запущено как собранный exe
+    EXE_DIR = os.path.dirname(sys.executable)
+else:
+    # Запущено как обычный скрипт python app.py
+    EXE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 # Путь к папке с веб-интерфейсом
-WEB_DIR = os.path.join(EXE_DIR, 'web')  # если web-папка рядом с exe
+WEB_DIR = os.path.join(EXE_DIR, 'web')
 # Путь к файлу базы данных
 DB_PATH = os.path.join(EXE_DIR, 'database.db')
 # Путь к файлу конфигурации
@@ -119,7 +123,7 @@ print(f"Базовая директория: {EXE_DIR}")
 def init_database():
     """Создает таблицы в БД, если их нет."""
     conn = sqlite3.connect(DB_PATH)
-    conn.text_factory = str  # Добавьте эту строку!
+    conn.text_factory = str
     cursor = conn.cursor()
 
     # Таблица пользователей
@@ -134,7 +138,7 @@ def init_database():
         )
     ''')
 
-    # Таблица событий (проходов)
+    # Таблица событий (проходов) - БЕЗ timezone_offset
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS events (
             id INTEGER PRIMARY KEY,
@@ -384,9 +388,14 @@ def create_app():
     @app.route('/api/exchange/events', methods=['POST'])
     def receive_events():
         """Эндпоинт для приема событий проходов."""
+        # СНАЧАЛА получаем данные из запроса
         data = request.get_json()
         if not data:
             return '', 400
+        
+        # ТОЛЬКО ПОТОМ используем data
+        timezone_offset = data.get('z', 0)
+        app.logger.info(f"Timezone offset received: {timezone_offset} seconds")
         
         received_login = data.get('l')
         expected_login = get_config().get('login')
@@ -426,13 +435,14 @@ def create_app():
                     app.logger.warning(f"Skipping event with missing required fields: {event}")
                     continue
                 
+                # Сохраняем событие (БЕЗ timezone_offset, так как колонки больше нет)
                 cursor.execute('''
                     INSERT OR REPLACE INTO events 
                     (id, event_type, access_point_id, access_point_name, employee_id, 
-                     timestamp, direction, key_hex)
+                    timestamp, direction, key_hex)
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?)
                 ''', (event_id, event_type, access_point_id, access_point_name, 
-                      employee_id, timestamp, direction, key_hex))
+                    employee_id, timestamp, direction, key_hex))
                 
                 last_id = max(last_id, event_id)
                 app.logger.info(f"Saved event {event_id} with point: {access_point_name}")
@@ -603,7 +613,7 @@ def create_app():
             
             cursor.execute('''
                 SELECT id, event_type, access_point_id, access_point_name, 
-                       employee_id, timestamp, direction, key_hex, received_at
+                    employee_id, timestamp, direction, key_hex, received_at
                 FROM events 
                 ORDER BY timestamp DESC 
                 LIMIT ? OFFSET ?
@@ -615,6 +625,14 @@ def create_app():
             result = []
             for event in events:
                 event_dict = dict(event)
+                
+                # ПРАВИЛЬНОЕ РЕШЕНИЕ: timestamp уже соответствует локальному времени
+                from datetime import datetime
+                # Используем UTC, так как timestamp в UTC соответствует локальному времени
+                event_time = datetime.utcfromtimestamp(event_dict['timestamp'])
+                formatted_date = event_time.strftime('%d.%m.%Y %H:%M:%S')
+                
+                event_dict['formatted_time'] = formatted_date
                 event_dict['event_type_name'] = 'Проход' if event_dict['event_type'] == 1 else 'Неизвестный ключ'
                 direction_map = {1: 'Выход', 2: 'Вход'}
                 event_dict['direction_name'] = direction_map.get(event_dict['direction'], 'Неизвестно')

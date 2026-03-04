@@ -289,8 +289,9 @@ async function loadEvents(page = 1) {
         data.events.forEach(event => {
             const row = tbody.insertRow();
             
-            const date = new Date(event.timestamp * 1000);
-            const formattedDate = date.toLocaleString('ru-RU');
+            // УБЕРИТЕ создание formattedDate через new Date()
+            // const date = new Date(event.timestamp * 1000);
+            // const formattedDate = date.toLocaleString('ru-RU');
             
             row.insertCell().textContent = event.id;
             row.insertCell().textContent = event.event_type_name || (event.event_type === 1 ? 'Проход' : 'Неизвестный ключ');
@@ -298,7 +299,8 @@ async function loadEvents(page = 1) {
             row.insertCell().textContent = event.key_hex || '';
             row.insertCell().textContent = event.access_point_name || '';
             row.insertCell().textContent = event.direction_name || '';
-            row.insertCell().textContent = formattedDate;
+            // ИСПОЛЬЗУЙТЕ ТОЛЬКО event.formatted_time
+            row.insertCell().textContent = event.formatted_time;
         });
         
         // Пагинация
