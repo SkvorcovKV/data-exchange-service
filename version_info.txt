@@ -24,7 +24,7 @@ VSVersionInfo(
          StringStruct(u'FileVersion', u'1.0.1.0'),
          StringStruct(u'InternalName', u'DataExchangeService'),
          StringStruct(u'LegalCopyright', u'© 2026 Скворцов К.В. Все права защищены'),
-         StringStruct(u'OriginalFilename', u'ent-exchange-service.exe'),
+         StringStruct(u'OriginalFilename', u'Data-exchange-service.exe'),
          StringStruct(u'ProductName', u'Data Exchange Service'),
          StringStruct(u'ProductVersion', u'1.0.1')])
       ]), 
