@@ -401,3 +401,115 @@ async function loadLogs() {
         document.getElementById('logs-content').textContent = 'Ошибка при загрузке логов';
     }
 }
+
+// ========== ЭКСПОРТ/ИМПОРТ ==========
+
+async function exportUsers() {
+    try {
+        const response = await fetch('/api/web/users/export');
+        if (response.ok) {
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `users_export_${new Date().toISOString().slice(0,19)}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+            alert('Экспорт пользователей выполнен успешно');
+        } else {
+            const error = await response.json();
+            alert('Ошибка при экспорте: ' + (error.error || 'Неизвестная ошибка'));
+        }
+    } catch (error) {
+        console.error('Error exporting users:', error);
+        alert('Ошибка при экспорте пользователей');
+    }
+}
+
+function showImportDialog() {
+    const dialog = document.getElementById('import-dialog');
+    dialog.classList.add('show');
+    document.getElementById('import-file').value = '';
+}
+
+function closeImportDialog() {
+    const dialog = document.getElementById('import-dialog');
+    dialog.classList.remove('show');
+}
+
+async function importUsers() {
+    const fileInput = document.getElementById('import-file');
+    const importMode = document.getElementById('import-mode').value;
+    
+    if (!fileInput.files || fileInput.files.length === 0) {
+        alert('Выберите файл для импорта');
+        return;
+    }
+    
+    const file = fileInput.files[0];
+    if (!file.name.endsWith('.json')) {
+        alert('Пожалуйста, выберите JSON файл');
+        return;
+    }
+    
+    try {
+        // Читаем файл как ArrayBuffer для точного контроля кодировки
+        const arrayBuffer = await file.arrayBuffer();
+        const uint8Array = new Uint8Array(arrayBuffer);
+        
+        // Проверяем наличие BOM (Byte Order Mark) для UTF-8
+        let content;
+        if (uint8Array.length >= 3 && uint8Array[0] === 0xEF && uint8Array[1] === 0xBB && uint8Array[2] === 0xBF) {
+            // UTF-8 with BOM - читаем как UTF-8
+            const decoder = new TextDecoder('utf-8');
+            content = decoder.decode(uint8Array);
+            console.log('File encoding: UTF-8 with BOM');
+        } else {
+            // Пробуем UTF-8, если есть кракозябры - конвертируем из Windows-1251
+            let utf8Decoder = new TextDecoder('utf-8');
+            let testContent = utf8Decoder.decode(uint8Array);
+            
+            // Проверяем, есть ли признаки неправильной кодировки
+            // (символы � или отсутствие русских букв там, где они ожидаются)
+            if (testContent.includes('�') || 
+                (testContent.includes('Рџ') && testContent.includes('Рё'))) {
+                // Пробуем Windows-1251
+                const win1251Decoder = new TextDecoder('windows-1251');
+                content = win1251Decoder.decode(uint8Array);
+                console.log('File encoding: Windows-1251 (converted to UTF-8)');
+            } else {
+                content = testContent;
+                console.log('File encoding: UTF-8 without BOM');
+            }
+        }
+        
+        const jsonData = JSON.parse(content);
+        
+        if (!jsonData.d || !Array.isArray(jsonData.d)) {
+            throw new Error('Неверный формат файла. Ожидается {"d": [...]}');
+        }
+        
+        const response = await fetch(`/api/web/users/import?mode=${importMode}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(jsonData)
+        });
+        
+        if (response.ok) {
+            const result = await response.json();
+            closeImportDialog();
+            loadUsers();
+            alert(`Импорт завершен:\nДобавлено: ${result.stats.added}\nОбновлено: ${result.stats.updated}\nПропущено: ${result.stats.skipped}`);
+        } else {
+            const error = await response.json();
+            alert('Ошибка при импорте: ' + (error.error || 'Неизвестная ошибка'));
+        }
+    } catch (error) {
+        console.error('Error importing users:', error);
+        alert('Ошибка при импорте: ' + error.message);
+    }
+}

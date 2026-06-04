@@ -138,7 +138,7 @@ def init_database():
         )
     ''')
 
-    # Таблица событий (проходов) - БЕЗ timezone_offset
+    # Таблица событий (проходов)
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS events (
             id INTEGER PRIMARY KEY,
@@ -166,7 +166,6 @@ def init_database():
 
 def init_config():
     """Создает файл конфигурации со значениями по умолчанию, если его нет."""
-    # Ищем config.ini в той же папке, где лежит exe
     exe_dir = os.path.dirname(sys.executable)
     config_path = os.path.join(exe_dir, 'config.ini')
     
@@ -174,7 +173,7 @@ def init_config():
         config = configparser.ConfigParser()
         config['SERVER'] = {
             'login': 'scud123',
-            'web_port': '7556',  # ВАЖНО: меняем на 7556 по умолчанию
+            'web_port': '7556',
             'debug_log': 'False'
         }
         with open(config_path, 'w') as configfile:
@@ -195,7 +194,6 @@ def save_config(new_config):
     """Сохраняет новую конфигурацию."""
     config = configparser.ConfigParser()
     config['SERVER'] = new_config
-    # Исправьте здесь:
     exe_dir = os.path.dirname(sys.executable)
     config_path = os.path.join(exe_dir, 'config.ini')
     with open(config_path, 'w') as configfile:
@@ -215,19 +213,16 @@ def convert_keys_to_hex(key_input):
         if not key:
             continue
             
-        # Если ключ уже в HEX формате (содержит буквы A-F)
         if any(c in 'ABCDEFabcdef' for c in key):
             hex_keys.append(key.upper())
             app.logger.debug(f"Key {key} is already in HEX format")
         else:
-            # Пробуем конвертировать из DEC в HEX
             try:
                 dec_value = int(key)
                 hex_value = format(dec_value, 'X').upper()
                 hex_keys.append(hex_value)
                 app.logger.debug(f"Converted DEC {key} to HEX {hex_value}")
             except ValueError:
-                # Если не число, оставляем как есть (вероятно, уже HEX с буквами)
                 hex_keys.append(key)
                 app.logger.debug(f"Key {key} kept as is")
     
@@ -237,12 +232,11 @@ def setup_logging(app):
     """Настраивает логирование в файл."""
     log_file = os.path.join(EXE_DIR, 'service.log')
     
-    # Создаем обработчик с явным указанием UTF-8
     handler = RotatingFileHandler(
         log_file, 
         maxBytes=1024*1024, 
         backupCount=3,
-        encoding='utf-8'  # Явно указываем UTF-8
+        encoding='utf-8'
     )
     
     formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
@@ -254,27 +248,23 @@ def setup_logging(app):
 
 def create_app():
     """Создает и настраивает Flask приложение"""
-    # Сначала читаем конфиг
     init_config()
     config = get_config()
     web_port = int(config.get('web_port', 7556))
     debug_log_enabled = config.get('debug_log', 'False').lower() == 'true'
     
-    # Создаем Flask приложение
     app = Flask(__name__, static_folder=None, template_folder=None)
     CORS(app)
     
-    # Настраиваем логирование
     setup_logging(app)
     if debug_log_enabled:
         app.logger.setLevel(logging.DEBUG)
         app.logger.debug("Режим отладки (расширенный лог) включен.")
     
-    # ========== ВНУТРИ create_app() ОПРЕДЕЛЯЕМ ВСЕ МАРШРУТЫ ==========
+    # ========== МАРШРУТЫ ДЛЯ СКУД ==========
     
     @app.route('/auth', methods=['POST'])
     def auth():
-        """Эндпоинт для аутентификации программы 'Обмен данными'."""
         data = request.get_json()
         app.logger.debug(f"Auth request: {data}")
         
@@ -294,7 +284,6 @@ def create_app():
 
     @app.route('/api/exchange/users', methods=['POST'])
     def get_users_for_scud():
-        """Эндпоинт для выгрузки пользователей в программу 'Обмен данными'."""
         data = request.get_json()
         app.logger.info(f"=== DEBUG: get_users_for_scud called ===")
         app.logger.info(f"Received data: {data}")
@@ -362,7 +351,6 @@ def create_app():
 
     @app.route('/api/exchange/last_event_id', methods=['POST'])
     def get_last_event_id():
-        """Эндпоинт для получения ID последнего события."""
         data = request.get_json()
         if not data:
             return '', 400
@@ -387,13 +375,10 @@ def create_app():
 
     @app.route('/api/exchange/events', methods=['POST'])
     def receive_events():
-        """Эндпоинт для приема событий проходов."""
-        # СНАЧАЛА получаем данные из запроса
         data = request.get_json()
         if not data:
             return '', 400
         
-        # ТОЛЬКО ПОТОМ используем data
         timezone_offset = data.get('z', 0)
         app.logger.info(f"Timezone offset received: {timezone_offset} seconds")
         
@@ -435,7 +420,6 @@ def create_app():
                     app.logger.warning(f"Skipping event with missing required fields: {event}")
                     continue
                 
-                # Сохраняем событие (БЕЗ timezone_offset, так как колонки больше нет)
                 cursor.execute('''
                     INSERT OR REPLACE INTO events 
                     (id, event_type, access_point_id, access_point_name, employee_id, 
@@ -461,7 +445,6 @@ def create_app():
 
     @app.route('/api/web/users', methods=['GET'])
     def get_users_web():
-        """Получить всех пользователей для веб-интерфейса"""
         try:
             conn = sqlite3.connect(DB_PATH)
             conn.text_factory = str
@@ -484,7 +467,6 @@ def create_app():
 
     @app.route('/api/web/users', methods=['POST'])
     def create_user():
-        """Создать нового пользователя"""
         try:
             data = request.get_json()
             app.logger.info(f"Creating user with data: {data}")
@@ -528,7 +510,6 @@ def create_app():
 
     @app.route('/api/web/users/<int:user_id>', methods=['PUT'])
     def update_user(user_id):
-        """Обновить существующего пользователя"""
         try:
             data = request.get_json()
             app.logger.info(f"Updating user {user_id} with data: {data}")
@@ -570,7 +551,6 @@ def create_app():
 
     @app.route('/api/web/users/<int:user_id>', methods=['DELETE'])
     def delete_user(user_id):
-        """Удалить пользователя"""
         try:
             app.logger.info(f"Deleting user {user_id}")
             
@@ -597,7 +577,6 @@ def create_app():
 
     @app.route('/api/web/events', methods=['GET'])
     def get_events():
-        """Получить события с пагинацией"""
         try:
             page = request.args.get('page', 1, type=int)
             per_page = request.args.get('per_page', 50, type=int)
@@ -626,9 +605,7 @@ def create_app():
             for event in events:
                 event_dict = dict(event)
                 
-                # ПРАВИЛЬНОЕ РЕШЕНИЕ: timestamp уже соответствует локальному времени
                 from datetime import datetime
-                # Используем UTC, так как timestamp в UTC соответствует локальному времени
                 event_time = datetime.utcfromtimestamp(event_dict['timestamp'])
                 formatted_date = event_time.strftime('%d.%m.%Y %H:%M:%S')
                 
@@ -652,7 +629,6 @@ def create_app():
 
     @app.route('/api/web/settings', methods=['GET'])
     def get_settings():
-        """Получить настройки сервера"""
         try:
             config = get_config()
             return jsonify({
@@ -666,7 +642,6 @@ def create_app():
 
     @app.route('/api/web/settings', methods=['PUT'])
     def update_settings():
-        """Обновить настройки сервера"""
         try:
             data = request.get_json()
             app.logger.info(f"Updating settings with: {data}")
@@ -693,7 +668,6 @@ def create_app():
 
     @app.route('/api/web/logs', methods=['GET'])
     def get_logs():
-        """Получить последние строки из лог-файла"""
         try:
             lines = request.args.get('lines', 100, type=int)
             log_file = os.path.join(EXE_DIR, 'service.log')
@@ -713,9 +687,119 @@ def create_app():
             app.logger.error(f"Error in get_logs: {e}")
             return jsonify({"error": str(e)}), 500
 
+    # ========== ИМПОРТ/ЭКСПОРТ ПОЛЬЗОВАТЕЛЕЙ ==========
+
+    @app.route('/api/web/users/export', methods=['GET'])
+    def export_users():
+        """Экспорт всех пользователей в JSON файл (формат last_import.json)"""
+        try:
+            conn = sqlite3.connect(DB_PATH)
+            conn.row_factory = sqlite3.Row
+            cursor = conn.cursor()
+            
+            cursor.execute('SELECT id, full_name, department, key FROM users ORDER BY id')
+            users = cursor.fetchall()
+            conn.close()
+            
+            result = {"d": []}
+            for user in users:
+                user_data = {
+                    "i": str(user['id']),
+                    "t": str(user['id']),
+                    "n": user['full_name'],
+                    "k": user['key'] if user['key'] else "",
+                    "c": user['department']
+                }
+                result["d"].append(user_data)
+            
+            # Отключаем экранирование Unicode-символов
+            response = app.response_class(
+                response=json.dumps(result, ensure_ascii=False, indent=2),
+                status=200,
+                mimetype='application/json; charset=utf-8'
+            )
+            response.headers.add('Content-Disposition', 'attachment; filename=export_users.json')
+            return response
+            
+        except Exception as e:
+            app.logger.error(f"Error in export_users: {e}")
+            return jsonify({"error": str(e)}), 500
+
+    @app.route('/api/web/users/import', methods=['POST'])
+    def import_users():
+        """Импорт пользователей из JSON файла (формат last_import.json)"""
+        try:
+            data = request.get_json()
+            if not data or 'd' not in data:
+                return jsonify({"error": "Invalid JSON format. Expected {'d': [...]}"}), 400
+            
+            imported_users = data.get('d', [])
+            if not imported_users:
+                return jsonify({"error": "No users to import"}), 400
+            
+            import_mode = request.args.get('mode', 'merge')
+            
+            conn = sqlite3.connect(DB_PATH)
+            conn.text_factory = str
+            cursor = conn.cursor()
+            
+            stats = {"added": 0, "updated": 0, "skipped": 0}
+            
+            if import_mode == 'replace':
+                cursor.execute('DELETE FROM users')
+                app.logger.info("All users deleted for replace import")
+            
+            for user in imported_users:
+                user_id = user.get('i')
+                full_name = user.get('n', '')
+                department = user.get('c', '')
+                key = user.get('k', '')
+                
+                if not full_name or not department:
+                    app.logger.warning(f"Skipping user with missing required fields: {user}")
+                    stats["skipped"] += 1
+                    continue
+                
+                # Проверяем, существует ли пользователь
+                cursor.execute('SELECT id FROM users WHERE id = ?', (user_id,))
+                exists = cursor.fetchone()
+                
+                if exists and import_mode == 'skip':
+                    stats["skipped"] += 1
+                    continue
+                elif exists and import_mode in ['merge', 'replace']:
+                    cursor.execute('''
+                        UPDATE users 
+                        SET full_name = ?, department = ?, key = ?, updated_at = CURRENT_TIMESTAMP
+                        WHERE id = ?
+                    ''', (full_name, department, key, user_id))
+                    stats["updated"] += 1
+                    app.logger.info(f"Updated user {user_id}: {full_name}")
+                else:
+                    cursor.execute('''
+                        INSERT INTO users (id, full_name, department, key, updated_at)
+                        VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP)
+                    ''', (user_id, full_name, department, key))
+                    stats["added"] += 1
+                    app.logger.info(f"Added user {user_id}: {full_name}")
+            
+            conn.commit()
+            conn.close()
+            
+            return jsonify({
+                "message": f"Import completed. Added: {stats['added']}, Updated: {stats['updated']}, Skipped: {stats['skipped']}",
+                "stats": stats,
+                "mode": import_mode
+            }), 200
+            
+        except Exception as e:
+            app.logger.error(f"Error in import_users: {e}")
+            return jsonify({"error": str(e)}), 500
+
+    # ========== РАЗДАЧА СТАТИЧЕСКИХ ФАЙЛОВ ==========
+
     @app.route('/')
     def serve_index():
-        """Раздает главную страницу"""
         try:
             app.logger.info(f"Serving index.html from {WEB_DIR}")
             return send_from_directory(WEB_DIR, 'index.html')
@@ -725,7 +809,6 @@ def create_app():
 
     @app.route('/<path:filename>')
     def serve_static(filename):
-        """Раздает статические файлы (css, js, jpg)"""
         try:
             app.logger.info(f"Serving static file: {filename}")
             return send_from_directory(WEB_DIR, filename)
@@ -733,20 +816,15 @@ def create_app():
             app.logger.error(f"Error serving {filename}: {e}")
             return f"Файл {filename} не найден", 404
 
-    # ========== ВОЗВРАЩАЕМ СОЗДАННОЕ ПРИЛОЖЕНИЕ ==========
     return app, web_port
 
-# ========== ЗАПУСК ПРИЛОЖЕНИЯ ==========
 
 if __name__ == '__main__':
     print("="*50)
     print("Запуск Сервиса обмена данными (Data Exchange Service)")
     print("="*50)
     
-    # Инициализируем БД
     init_database()
-    
-    # Создаем приложение
     app, web_port = create_app()
     
     app.logger.info("Сервис запускается...")
